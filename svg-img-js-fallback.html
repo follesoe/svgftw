@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+	
+</head>
+<body>
+	<img src="logo.svg" alt="BEKK" />
+	<script>
+	if(!Modernizr.svg) {
+	    $('img[src*="svg"]').attr('src', function() {
+	        return $(this).attr('src').replace('.svg', '.png');
+	    });
+	}
+	</script>
+</body>
+</html>
