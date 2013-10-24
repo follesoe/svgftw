@@ -1,16 +1,17 @@
 <!doctype html>
 <html>
 <head>
-	
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
 </head>
 <body>
-	<img src="logo.svg" alt="BEKK" />
-	<script>
-	if(!Modernizr.svg) {
-	    $('img[src*="svg"]').attr('src', function() {
-	        return $(this).attr('src').replace('.svg', '.png');
-	    });
-	}
-	</script>
+    <img src="logo.svg" alt="BEKK" />
+    <script>
+        if(!Modernizr.svg) {
+            $('img[src*="svg"]').attr('src', function() {
+                return $(this).attr('src').replace('.svg', '.png');
+            });
+        }
+    </script>
 </body>
 </html>
