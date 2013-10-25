@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Demo</title>
+    <script src="snap.svg-min.js"></script>
+    <script src="lodash.min.js"></script>
+</head>
+<body>
+    <h1>SnapSVG Demo</h1>
+    <script>
+        var s = Snap(600,600);
+        Snap.load('tdc.svg', function(f) {
+            s.add(f);
+            var T = s.select('#letterT');
+            var D = s.select('#letterD');
+            var C = s.select('#letterC');
+            T.hover(function() {
+                T.animate({transform: "r25 s2"}, 500, mina.easein);
+            }, function() {
+                T.animate({transform: "r0 s1"}, 500, mina.easeout);
+            });
+            D.hover(function() {
+                D.animate({transform: "r-15 s2"}, 500, mina.easein);
+            }, function() {
+                D.animate({transform: "r0 s1"}, 500, mina.easeout);
+            });
+            C.hover(function() {
+                C.animate({transform: "r15 s2"}, 500, mina.easein);
+            }, function() {
+                C.animate({transform: "r0 s1"}, 500, mina.easeout);
+            });
+        });
+    </script>
+</body>
+</html>
