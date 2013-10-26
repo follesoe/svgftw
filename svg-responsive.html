@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<body>		
+	<input id="icon-size-range" type="range" name="points" min="16" max="256" value="256">
+	<br />
+	<img src="octocat.svg" id="octocat" width="256" height="auto" />
+	<script>
+		document.getElementById("icon-size-range").addEventListener("change", function() { 
+			var width = document.getElementById("icon-size-range").value;
+			document.getElementById("octocat").setAttribute("width", width);
+		});
+	</script>
+</body>
+</html>
