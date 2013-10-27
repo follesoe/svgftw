@@ -15,21 +15,44 @@
             var T = s.select('#letterT');
             var D = s.select('#letterD');
             var C = s.select('#letterC');
-            T.hover(function() {
-                T.animate({transform: "r25 s2"}, 500, mina.easein);
-            }, function() {
-                T.animate({transform: "r0 s1"}, 500, mina.easeout);
+            var text = s.select('#text');
+            var letters = s.group(T,D,C);
+            s.select("#svg3004").attr({
+                width: 600,
+                height: 600
             });
-            D.hover(function() {
-                D.animate({transform: "r-15 s2"}, 500, mina.easein);
-            }, function() {
-                D.animate({transform: "r0 s1"}, 500, mina.easeout);
+
+            T.attr({
+                transform: "r-180",
+                opacity: 0
             });
-            C.hover(function() {
-                C.animate({transform: "r15 s2"}, 500, mina.easein);
-            }, function() {
-                C.animate({transform: "r0 s1"}, 500, mina.easeout);
+            D.attr({
+                transform: "r-180",
+                opacity: 0
             });
+            C.attr({
+                transform: "r-180 s1",
+                opacity: 0
+            });
+            text.attr({
+                transform: "translate(-900, -350) scale(2.8)"
+            });
+
+            function initialText() {
+                text.animate({transform: "scale(1) translate(0,0)"}, 1500, mina.easeout);
+            };
+
+            function fadeIn(e) {
+                return function() {
+                    e.animate({opacity: 1, transform: "r0"}, 1000, mina.easin);
+                };
+            };
+
+            setTimeout(initialText, 1500);
+            setTimeout(fadeIn(T), 2000);
+            setTimeout(fadeIn(D), 2200);
+            setTimeout(fadeIn(C), 2400);
+
         });
     </script>
 </body>
