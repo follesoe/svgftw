@@ -11,47 +11,42 @@
     <script>
         var s = Snap(600,600);
         Snap.load('tdc.svg', function(f) {
+
             s.add(f);
             var T = s.select('#letterT');
             var D = s.select('#letterD');
             var C = s.select('#letterC');
             var text = s.select('#text');
-            var letters = s.group(T,D,C);
-            s.select("#svg3004").attr({
-                width: 600,
-                height: 600
-            });
 
-            T.attr({
-                transform: "r-180",
-                opacity: 0
-            });
-            D.attr({
-                transform: "r-180",
-                opacity: 0
-            });
-            C.attr({
-                transform: "r-180 s1",
-                opacity: 0
-            });
-            text.attr({
-                transform: "translate(-900, -350) scale(2.8)"
-            });
+            T.attr({ opacity: 0 });
+            D.attr({ opacity: 0 });
+            C.attr({ opacity: 0 });
+            text.attr({ transform: "translate(-900, -350) scale(2.8)" });
 
-            function initialText() {
+            function shrinkAndTranslateText() {
                 text.animate({transform: "scale(1) translate(0,0)"}, 1500, mina.easeout);
             };
 
             function fadeIn(e) {
                 return function() {
-                    e.animate({opacity: 1, transform: "r0"}, 1000, mina.easin);
+                    e.animate({opacity: 1}, 1000, mina.easin);
                 };
             };
 
-            setTimeout(initialText, 1500);
+            function scaleAndRotate(e, scale, deg, easing) {
+                return function() {
+                    e.animate({transform: "r"+deg+" s"+scale}, 500, easing);
+                }
+            };
+
+            setTimeout(shrinkAndTranslateText, 1500);
             setTimeout(fadeIn(T), 2000);
             setTimeout(fadeIn(D), 2200);
             setTimeout(fadeIn(C), 2400);
+
+            T.hover(scaleAndRotate(T, 2, 25, mina.easin), scaleAndRotate(T, 1, 0, mina.easout));
+            D.hover(scaleAndRotate(D, 2, -15, mina.easin), scaleAndRotate(D, 1, 0, mina.easout));
+            C.hover(scaleAndRotate(C, 2, 15, mina.easin), scaleAndRotate(C, 1, 0, mina.easout));
 
         });
     </script>

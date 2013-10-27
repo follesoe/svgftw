@@ -8,88 +8,149 @@
 </head>
 <body>
     <h1>SnapSVG Demo</h1>
-    <p>hint: click and drag</p>
     <script>
-        var s = Snap(800, 600);
-        var letterAttr = {
-            'stroke': '#333',
-            'fill': '#bada55',
-            'strokeWidth': 3
+        var canvasHeight = 300,
+            canvasWidth = 500,
+            strokeWidth = 3,
+            letterAttr = {
+                'stroke': '#333',
+                'fill': '#bada55',
+                'strokeWidth': strokeWidth
+            },
+            letterWidth = 110,
+            letterHeight = 160,
+            margin = 10,
+            s = Snap(canvasWidth, canvasHeight);
+
+
+        function renderTPole() {
+            var element,
+                width = (letterHeight/4),
+                height = letterHeight - (letterHeight/4),
+                x = letterWidth/2-width/2,
+                y = 0;
+            element = s.rect(x, y, width, height, 3, 3);
+            element.attr(letterAttr);
+            element.animate({y: canvasHeight-strokeWidth-height}, 1000, mina.bounce);
         };
 
-        var t1, t2;
-        setTimeout(function() {
-            t2 = s.rect(68, 30, 30, 130);
-            t2.attr(letterAttr);
-            t2.animate({y: 600-3-130}, 1000, mina.bounce);
-        }, 0);
+        function renderTBar() {
+            var element,
+                width = letterWidth,
+                height = (letterHeight/4),
+                x = strokeWidth,
+                y = 0;
+            element = s.rect(x, y, width, height, 3, 3);
+            element.attr(letterAttr);
+            element.animate({y: canvasHeight-(letterHeight - (letterHeight/4))-height-strokeWidth}, 1000, mina.easeout);
+        };
 
-        setTimeout(function() {
-            t1 = s.rect(3, 3, 160, 30, 3, 3);
-            t1.attr(letterAttr);
-            t1.animate({y: 600-130-30-3}, 1000, mina.easeout);
-            var g = s.group(t2,t1);
-            g.drag();
-        }, 300);
+        function renderDBar() {
+            var element,
+                width = (letterHeight/6),
+                height = letterHeight,
+                x = canvasWidth - width - strokeWidth,
+                y = canvasHeight - height - strokeWidth;
+            element = s.rect(x, y, width, height, 3, 3);
+            element.attr(letterAttr);
+            element.animate({x: (letterWidth + margin + 2*strokeWidth)}, 1000, mina.bounce)
+        };
 
-        var d1, d2;
-        setTimeout(function() {
-            d1 = s.rect(767, 600-160-3, 30, 160, 3, 3);
-            d1.attr(letterAttr);
-            d1.animate({x: 170}, 1000, mina.bounce)
-        }, 600);
+        function renderDBulge() {
+            var element,
+                radius = letterHeight/2,
+                cx = radius + strokeWidth,
+                cy = canvasHeight - radius - strokeWidth,
+                mask,
+                maskWidth = radius + strokeWidth,
+                maskHeight = radius*2 + strokeWidth*2,
+                maskX = cx,
+                maskY = cy - maskHeight/2;
 
-        setTimeout(function() {
-            d2 = s.circle(800-80-3, 600-80-3, 80);
-            d2.attr(letterAttr);
-            var filter = s.rect(800-80-3, 600-160-6, 83, 166);
-            filter.attr({
+            element = s.circle(cx, cy, radius);
+            element.attr(letterAttr);
+            mask = s.rect(maskX, maskY, maskWidth, maskHeight);
+            mask.attr({
                 'fill': '#FFF'
             });
-            d2.attr({
-                'mask': filter
+            element.attr({
+                'mask': mask
             });
-            filter.animate({x: 202}, 1000, mina.bounce);
-            d2.animate({cx: 202}, 1000, mina.bounce);
-            var g = s.group(d1, d2);
-            g.drag();
-        }, 1000);
+            mask.animate({x: (letterWidth + margin) + (letterHeight/6)}, 1000, mina.bounce);
+            element.animate({cx: (letterWidth + margin) + (letterHeight/6)}, 1000, mina.bounce);
+        };
 
-        setTimeout(function() {
-            var d2 = s.circle(0+80+6, 600-80-3, 80);
-            d2.attr(letterAttr);
-            var filter = s.rect(0+3, 600-165, 92, 166);
-            var d3 = s.rect(0+80+6*2-3, 600-162-2, 3, 161, 3, 3);
-            d3.attr({
+        function renderC() {
+            var element,
+                radius = letterHeight/2,
+                cx = radius + strokeWidth,
+                cy = canvasHeight - radius - strokeWidth,
+                mask,
+                maskWidth = radius + strokeWidth,
+                maskHeight = radius*2 + strokeWidth*2,
+                maskX = cx - maskWidth,
+                maskY = cy - maskHeight/2,
+                borderWidth = strokeWidth,
+                borderHeight = radius*2 + strokeWidth,
+                borderX = cx,
+                borderY = cy - radius - strokeWidth/2;
+
+            element = s.circle(cx, cy, radius);
+            element.attr(letterAttr);
+            mask = s.rect(maskX, maskY, maskWidth, maskHeight);
+            mask.attr({
+                'fill': '#FFF'
+            });
+            element.attr({
+                'mask': mask
+            });
+            border = s.rect(borderX, borderY, borderWidth, borderHeight, 3, 3);
+            border.attr({
                 'fill': '#333'
-            })
-            filter.attr({
-                'fill': '#FFF'
             });
-            d2.attr({
-                'mask': filter
-            });
-            filter.animate({x: 282}, 1000, mina.elastic);
-            d2.animate({cx: 282+83}, 1000, mina.elastic);
-            d3.animate({x: 282+92}, 1000, mina.elastic);
-            var g = s.group(d2, d3);
-            g.drag();
-        }, 2000);
+            element.animate({cx: (letterWidth + margin)*2 + radius + strokeWidth}, 1000, mina.elastic);
+            mask.animate({x: (letterWidth + margin)*2}, 1000, mina.elastic);
+            border.animate({x: (letterWidth + margin)*2 + radius + strokeWidth}, 1000, mina.elastic);
+        };
 
-        setTimeout(function() {
-            var t = s.text(400, 600-166+40, "'13");
-
-            t.attr({
+        function render13Text() {
+            var element,
+                fontSize = letterHeight/2,
+                x = (letterWidth + margin)*3 + fontSize/2,
+                y = canvasHeight - letterHeight + fontSize
+            element = s.text(x, y, "'13");
+            element.attr({
                 'fill': '#bada55',
                 'stroke': '#333',
-                'strokeWidth': 1.5,
-                'fontSize': 40,
+                'strokeWidth': strokeWidth,
+                'fontSize': fontSize,
                 'opacity': 0,
                 'fontFamily': 'Arial'
             });
-            t.animate({opacity: 1, transform: "r-20,300,444 s2"}, 1000, mina.easein);
-            t.drag();
-        },2200);
+            element.animate({opacity: 1, transform: "r-20," + y + ","+ x}, 1000, mina.easein);
+        };
+
+        function renderUnderline() {
+            var element, length;
+
+            element = s.rect(0, canvasHeight, 1, 1);
+            element.attr({
+                'strokeWidth': 10,
+                'stroke': "#333"
+            });
+
+            element.animate({width: letterWidth*3+margin*3}, 750, mina.linear)
+
+        };
+
+        setTimeout(renderTPole, 0);
+        setTimeout(renderTBar, 300);
+        setTimeout(renderDBar, 600);
+        setTimeout(renderDBulge, 1000);
+        setTimeout(renderC, 2000);
+        setTimeout(render13Text,2200);
+        setTimeout(renderUnderline, 2200);
+
     </script>
 </body>
 </html>
