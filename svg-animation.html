@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+  <script src="jquery.svg.js"></script>
+  <script src="jquery.svganim.js"></script>
+  <style>
+    div { 
+      float: left;
+      margin-right: 28px; 
+    }
+
+    h1 { 
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>CSS3 Transitions</h1>
+    <svg width="100" height="100">
+        <style>
+            .csstransition {
+                fill: black;
+            }
+         
+            .csstransition:hover {
+                fill: teal;
+                transition-property: fill;
+                transition-duration: 1s;
+            }
+        </style>        
+        <rect class="csstransition" width="100" height="100" />
+    </svg>
+  </div>
+  <div>    
+    <h1>CSS3 Animations</h1>
+    <svg width="100" height="100">
+        <style>
+              @-webkit-keyframes fill {
+                  from {
+                      fill: black;
+                  }
+                  to {
+                      fill: teal;
+                  }
+              }
+         
+              .cssanim:hover {
+                  -webkit-animation-name: fill;
+                  -webkit-animation-duration: 1s;
+              }
+        </style>     
+        <rect class="cssanim" width="100" height="100" />
+    </svg>
+  </div>
+
+  <div>
+    <h1>SVG Animation</h1>
+    <svg width="100" height="100">
+        <rect width="100" height="100">
+            <animate 
+                attributeName="fill" 
+                from="black" 
+                to="purple"
+                dur="1s"
+                begin="mouseover" />
+        </rect>
+    </svg>
+  </div>
+
+
+  <div>
+    <h1>JS Animation</h1>
+    <svg width="100" height="100">
+        <rect id="jsRect" width="100" height="100">
+        </rect>
+    </svg>
+    <script>
+      $("#jsRect").mouseover(function() {
+        $(this).animate({ "svgFill": "green"}, 1000);
+      });
+
+      $("#jsRect").mouseout(function() {
+        $(this).animate({ "svgFill": "black"}, 1000);
+      });      
+    </script>
+  </div>
+</body>
+</html>
