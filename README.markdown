@@ -1,4 +1,4 @@
-# Scalable Vector Graphics FTW!
+## Scalable Vector Graphics FTW!
 
 This repo contains the example code from the presentation given at Trondheim Developer Conference 28. october 2013.
 
